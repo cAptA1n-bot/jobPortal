@@ -12,7 +12,8 @@
 
 1. Users
  - _id (ObjectId)
- - name (string)
+ - firstName (string)
+ - lastName (string)
  - email (string, unique)
  - password (string, hashed)
  - role (string: "admin", "recruiter", "applicant")
