@@ -12,4 +12,18 @@ const signup = async (firstName, lastName, emailId, password) => {
     return user;
 }
 
-export default { signup };
+const login = async (emailId, password) => {
+    const user = await User.findOne({emailId});
+    if(!user){
+        throw new Error("Invalid email id or password");
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if(!isMatch){
+        throw new Error("Invalid email id or password");
+    }
+
+    return user;
+}
+
+export default { signup, login };

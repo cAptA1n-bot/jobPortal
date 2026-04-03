@@ -8,7 +8,8 @@ const login = async (req, res) => {
         if (!emailId || !password) {
             throw new Error("Email and password are required");
         }
-
+        emailValidator(emailId);
+        passwordValidator(password);
         const user = await authService.login(emailId, password);
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
         res.cookie("token", token, { expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) });
@@ -38,4 +39,4 @@ const signup = async (req, res) => {
     }
 }
 
-export { login, signup };
+export default { login, signup };
