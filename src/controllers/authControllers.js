@@ -1,4 +1,4 @@
-import { emailValidator, passwordValidator } from "../utils/validator.js";
+import validators from "../utils/validator.js";
 import jwt from "jsonwebtoken";
 import authService from "../services/authServices.js";
 
@@ -8,8 +8,8 @@ const login = async (req, res) => {
         if (!emailId || !password) {
             throw new Error("Email and password are required");
         }
-        emailValidator(emailId);
-        passwordValidator(password);
+        validators.emailValidator(emailId);
+        validators.passwordValidator(password);
         const user = await authService.login(emailId, password);
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
         res.cookie("token", token, { expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) });
@@ -26,8 +26,8 @@ const signup = async (req, res) => {
             throw new Error("All fields are required");
         }
 
-        emailValidator(emailId);
-        passwordValidator(password);
+        validators.emailValidator(emailId);
+        validators.passwordValidator(password);
         const user = await authService.signup(firstName, lastName, emailId, password);
         
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '7d'});

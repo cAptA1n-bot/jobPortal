@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import validator from "validator";
+import validators from "../utils/validator.js";
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
         validate: {
             validator: function (value) {
                 try {
-                    emailValidator(value); // your utils function
+                    validators.emailValidator(value);
                     return true;
                 } catch (err) {
                     return false;
@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
         validate: {
             validator: function (value) {
                 try {
-                    passwordValidator(value);
+                    validators.passwordValidator(value);
                     return true;
                 } catch (err) {
                     return false;
@@ -57,20 +57,7 @@ const userSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-const emailValidator = (emailId) => {
-    return validator.isEmail(emailId);
-}
-
-const passwordValidator = (password) => {
-    return validator.isStrongPassword(password, {
-        minLength: 8,
-        minLowercase: 1,
-        minUppercase: 1,
-        minNumbers: 1,
-        minSymbols: 1
-    });
-}
 
 export default User;

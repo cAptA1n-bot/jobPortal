@@ -18,4 +18,4 @@ const passwordValidator = (password) => {
     }
 }
 
-export { emailValidator, passwordValidator };
+export default { emailValidator, passwordValidator };

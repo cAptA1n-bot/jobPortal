@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import User from '../models/user.js';
+import User from "../models/user.js";
 
 const signup = async (firstName, lastName, emailId, password) => {
     const existingUser = await User.findOne({emailId});
