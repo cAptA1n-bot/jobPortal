@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import connectDB from './config/database.js';
 import authRouter from './routes/authRoutes.js';
 import userRouter from './routes/userRoutes.js';
+import jobRouter from './routes/jobRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/jobs", jobRouter);
 
 
 connectDB()
