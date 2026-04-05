@@ -18,7 +18,7 @@ const createJob = async (req, res) => {
 
 const getJobs = async (req, res) => {
     try{
-        const jobs = await jobServices.getJobs();
+        const jobs = await jobServices.getJobs(req.query);
         res.status(200).json({ data: jobs });
     }
     catch(error){
