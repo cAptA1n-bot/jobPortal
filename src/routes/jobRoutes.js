@@ -6,5 +6,6 @@ import jobControllers from '../controllers/jobControllers.js';
 const jobRouter = express.Router();
 
 jobRouter.post("/", authMiddleware, authorizeRole("admin", "recruiter"), jobControllers.createJob);
+jobRouter.get("/", authMiddleware, jobControllers.getJobs);
 
 export default jobRouter;

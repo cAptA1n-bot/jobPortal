@@ -15,6 +15,10 @@ const jobSchema = new mongoose.Schema({
         minlength: 50,
         maxlength: 5000
     },
+    requirements: [{
+        type: String,
+        required: true
+    }],
     location: {
         type: String,
         required: true
