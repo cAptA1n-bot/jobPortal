@@ -26,4 +26,16 @@ const getJobs = async (req, res) => {
     }
 }
 
-export default { createJob, getJobs };
+const applyToJob = async (req, res) => {
+    const jobId = req.params.id;
+    const candidateId = req.user._id;
+    try{
+        const application = await jobServices.applyToJob(jobId, candidateId);
+        res.status(200).json({ message: "Applied to job successfully", data: application });
+    }
+    catch(error){
+        res.status(400).json({ error: error.message });
+    }
+}
+
+export default { createJob, getJobs, applyToJob };

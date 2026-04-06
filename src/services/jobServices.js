@@ -1,4 +1,5 @@
 import Job from '../models/job.js';
+import Application from '../models/application.js';
 
 const createJob = async (title, description, company, requirements, location, salary, createdBy) => {
     try{
@@ -28,4 +29,23 @@ const getJobs = async (query) => {
     }
 }
 
-export default { createJob, getJobs };
+const applyToJob = async (jobId, candidateId) => {
+    try{
+        const job = await Job.findById(jobId);
+        if(!job){
+            throw new Error("Job not found");
+        }
+        const existingApplication = await Application.findOne({ job: jobId, candidate: candidateId });
+        if(existingApplication){
+            throw new Error("You have already applied to this job");
+        }
+        const application = new Application({ job: jobId, candidate: candidateId });
+        await application.save();
+        return application;
+    }
+    catch(error){
+        throw error
+    }
+}
+
+export default { createJob, getJobs, applyToJob };
