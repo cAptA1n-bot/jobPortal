@@ -7,6 +7,7 @@ const jobRouter = express.Router();
 
 jobRouter.post("/", authMiddleware, authorizeRole("admin", "recruiter"), jobControllers.createJob);
 jobRouter.get("/", authMiddleware, jobControllers.getJobs);
-jobRouter.post("/:id/application", authMiddleware, authorizeRole("applicant"), jobControllers.applyToJob);
+jobRouter.post("/:id/applications", authMiddleware, authorizeRole("applicant"), jobControllers.applyToJob);
+jobRouter.delete("/:id/applications", authMiddleware, authorizeRole("applicant"), jobControllers.withdrawApplication);
 
 export default jobRouter;

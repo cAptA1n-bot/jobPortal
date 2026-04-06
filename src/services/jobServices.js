@@ -44,8 +44,22 @@ const applyToJob = async (jobId, candidateId) => {
         return application;
     }
     catch(error){
-        throw error
+        throw error;
     }
 }
 
-export default { createJob, getJobs, applyToJob };
+const withdrawApplication = async (jobId, candidateId) => {
+    try{
+        const deleted = await Application.findOneAndDelete({ job: jobId, candidate: candidateId });
+        if(!deleted){
+            throw new Error("Application not found");
+        }
+          
+        return;
+    }
+    catch(error){
+        throw error;
+    }
+}
+
+export default { createJob, getJobs, applyToJob, withdrawApplication };
