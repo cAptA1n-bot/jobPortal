@@ -82,4 +82,21 @@ const getMyJobs = async (recruiterId) => {
     }
 }
 
-export default { createJob, getJobs, applyToJob, withdrawApplication, getMyApplications, getMyJobs };
+const getApplicantsForJob = async (jobId, recruiterId) => {
+    try{
+        const job = await Job.findById(jobId);
+        if(!job){
+            throw new Error("Job not found");
+        }
+        if(job.createdBy.toString() !== recruiterId.toString()){
+            throw new Error("Unauthorized");
+        }
+        const applications = await Application.find({job: jobId}).populate('candidate', 'firstName lastName emailId').sort({ createdAt: -1 });
+        return applications;
+    }
+    catch(error){
+        throw error;
+    }
+}
+
+export default { createJob, getJobs, applyToJob, withdrawApplication, getMyApplications, getMyJobs, getApplicantsForJob };
