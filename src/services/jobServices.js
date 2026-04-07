@@ -62,20 +62,30 @@ const withdrawApplication = async (jobId, candidateId) => {
     }
 }
 
-const getMyApplications = async (candidateId) => {
+const getMyApplications = async (candidateId, query) => {
     try{
-        const applications = await Application.find({ candidate: candidateId }).populate('job', 'title company location salary description').sort({ createdAt: -1 });
-        return applications;
+        
+        const page = query.page ? parseInt(query.page) : 1;
+        const limit = query.limit ? parseInt(query.limit) : 10;
+        const skip = (page - 1) * limit;
+        const applications = await Application.find({ candidate: candidateId }).populate('job', 'title company location salary description').sort({ createdAt: -1 }).skip(skip).limit(limit);
+        const totalApplications = await Application.countDocuments({ candidate: candidateId });
+        return { applications, totalPages: Math.ceil(totalApplications / limit), currentPage: page, totalApplications };
     }
     catch(error){
         throw error;
     }
 }
 
-const getMyJobs = async (recruiterId) => {
+const getMyJobs = async (recruiterId, query) => {
     try{
-        const jobs = await Job.find({ createdBy: recruiterId }).sort({ createdAt: -1 });
-        return jobs;
+       
+        const page = query.page ? parseInt(query.page) : 1;
+        const limit = query.limit ? parseInt(query.limit) : 10;
+        const skip = (page - 1) * limit;
+        const jobs = await Job.find({ createdBy: recruiterId }).sort({ createdAt: -1 }).skip(skip).limit(limit);
+        const totalJobs = await Job.countDocuments({ createdBy: recruiterId });
+        return { jobs, totalPages: Math.ceil(totalJobs / limit), currentPage: page, totalJobs };
     }
     catch(error){
         throw error;
@@ -91,8 +101,13 @@ const getApplicantsForJob = async (jobId, recruiterId) => {
         if(job.createdBy.toString() !== recruiterId.toString()){
             throw new Error("Unauthorized");
         }
-        const applications = await Application.find({job: jobId}).populate('candidate', 'firstName lastName emailId').sort({ createdAt: -1 });
-        return applications;
+        
+        const page = query.page ? parseInt(query.page) : 1;
+        const limit = query.limit ? parseInt(query.limit) : 10;
+        const skip = (page - 1) * limit;
+        const applications = await Application.find({ job: jobId }).populate('candidate', 'firstName lastName emailId').sort({ createdAt: -1 }).skip(skip).limit(limit);
+        const totalApplicants = await Application.countDocuments({ job: jobId });
+        return { applications, totalPages: Math.ceil(totalApplicants / limit), currentPage: page, totalApplicants };
     }
     catch(error){
         throw error;

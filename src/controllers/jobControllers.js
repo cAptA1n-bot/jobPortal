@@ -53,7 +53,7 @@ const withdrawApplication = async (req, res) => {
 const getMyApplications = async (req, res) => {
     const candidateId = req.user._id;
     try{
-        const applications = await jobServices.getMyApplications(candidateId);
+        const applications = await jobServices.getMyApplications(candidateId, req.query);
         res.status(200).json({ data: applications });
     }
     catch(error){
@@ -64,7 +64,7 @@ const getMyApplications = async (req, res) => {
 const getMyJobs = async (req, res) => {
     const recruiterId = req.user._id;
     try{
-        const jobs = await jobServices.getMyJobs(recruiterId);
+        const jobs = await jobServices.getMyJobs(recruiterId, req.query);
         res.status(200).json({ data: jobs });
     }
     catch(error){
@@ -76,7 +76,7 @@ const getApplicantsForJob = async (req, res) => {
     const jobId = req.params.id;
     const recruiterId = req.user._id;
     try{
-        const applicants = await jobServices.getApplicantsForJob(jobId, recruiterId);
+        const applicants = await jobServices.getApplicantsForJob(jobId, recruiterId, req.query);
         res.status(200).json({ data: applicants });
     }
     catch(error){
