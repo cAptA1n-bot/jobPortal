@@ -62,4 +62,14 @@ const withdrawApplication = async (jobId, candidateId) => {
     }
 }
 
-export default { createJob, getJobs, applyToJob, withdrawApplication };
+const getMyApplications = async (candidateId) => {
+    try{
+        const applications = await Application.find({ candidate: candidateId }).populate('job', 'title company location salary description').sort({ createdAt: -1 });
+        return applications;
+    }
+    catch(error){
+        throw error;
+    }
+}
+
+export default { createJob, getJobs, applyToJob, withdrawApplication, getMyApplications };

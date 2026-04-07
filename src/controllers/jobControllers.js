@@ -50,4 +50,15 @@ const withdrawApplication = async (req, res) => {
     }
 }
 
-export default { createJob, getJobs, applyToJob, withdrawApplication };
+const getMyApplications = async (req, res) => {
+    const candidateId = req.user._id;
+    try{
+        const applications = await jobServices.getMyApplications(candidateId);
+        res.status(200).json({ data: applications });
+    }
+    catch(error){
+        res.status(400).json({ error: error.message });
+    }
+}
+
+export default { createJob, getJobs, applyToJob, withdrawApplication, getMyApplications };

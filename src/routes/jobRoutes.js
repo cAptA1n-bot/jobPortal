@@ -9,5 +9,6 @@ jobRouter.post("/", authMiddleware, authorizeRole("admin", "recruiter"), jobCont
 jobRouter.get("/", authMiddleware, jobControllers.getJobs);
 jobRouter.post("/:id/applications", authMiddleware, authorizeRole("applicant"), jobControllers.applyToJob);
 jobRouter.delete("/:id/applications", authMiddleware, authorizeRole("applicant"), jobControllers.withdrawApplication);
+jobRouter.get("/applications", authMiddleware, authorizeRole("applicant"), jobControllers.getMyApplications);
 
 export default jobRouter;
