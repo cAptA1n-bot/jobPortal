@@ -72,4 +72,14 @@ const getMyApplications = async (candidateId) => {
     }
 }
 
-export default { createJob, getJobs, applyToJob, withdrawApplication, getMyApplications };
+const getMyJobs = async (recruiterId) => {
+    try{
+        const jobs = await Job.find({ createdBy: recruiterId }).sort({ createdAt: -1 });
+        return jobs;
+    }
+    catch(error){
+        throw error;
+    }
+}
+
+export default { createJob, getJobs, applyToJob, withdrawApplication, getMyApplications, getMyJobs };
