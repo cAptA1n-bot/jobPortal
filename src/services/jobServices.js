@@ -114,4 +114,28 @@ const getApplicantsForJob = async (jobId, recruiterId) => {
     }
 }
 
-export default { createJob, getJobs, applyToJob, withdrawApplication, getMyApplications, getMyJobs, getApplicantsForJob };
+const closeJob = async (applicationId, recruiterId, status) => {
+    try{
+        const application = await Application.findById(applicationId).populate('job', 'createdBy');
+        if(!application){
+            throw new Error("Application not found");
+        }
+        if(application.job.createdBy.toString() !== recruiterId.toString()){
+            throw new Error("Unauthorized");
+        }
+        if(application.status === "applied"){
+            application.status = status;
+            await application.save();
+            return application;
+        }
+        else{
+            throw new Error("Can only close jobs that are currently open");
+        }
+        
+    }
+    catch(error){
+        throw error;
+    }
+}
+
+export default { createJob, getJobs, applyToJob, withdrawApplication, getMyApplications, getMyJobs, getApplicantsForJob, closeJob };

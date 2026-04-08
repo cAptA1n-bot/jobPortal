@@ -84,4 +84,23 @@ const getApplicantsForJob = async (req, res) => {
     }
 }
 
-export default { createJob, getJobs, applyToJob, withdrawApplication, getMyApplications, getMyJobs, getApplicantsForJob };
+const closeJob = async (req, res) => {
+    const applicationId = req.params.id;
+    const status = req.params.status;
+    const recruiterId = req.user._id;
+    try{
+        if(!applicationId || !status){
+            return res.status(400).json({ error: "Job ID and status are required" });
+        }
+        if(!["accepted", "rejected"].includes(status)){
+            return res.status(400).json({ error: "Invalid status" });
+        }
+        const job = await jobServices.closeJob(applicationId, recruiterId, status);
+        res.status(200).json({ message: "Job closed successfully", data: job});
+    }
+    catch(error){
+        res.status(400).json({ error: error.message });
+    }
+}
+
+export default { createJob, getJobs, applyToJob, withdrawApplication, getMyApplications, getMyJobs, getApplicantsForJob, closeJob };
