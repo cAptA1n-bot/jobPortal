@@ -79,7 +79,7 @@ const getMyJobs = async (recruiterId, query) => {
     }
 }
 
-const getApplicantsForJob = async (jobId, recruiterId) => {
+const getApplicantsForJob = async (jobId, recruiterId, query) => {
     try{
         const job = await Job.findById(jobId);
         if(!job){

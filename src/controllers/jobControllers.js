@@ -76,7 +76,7 @@ const getApplicantsForJob = async (req, res) => {
 
 const closeJob = async (req, res) => {
     const applicationId = req.params.id;
-    const status = req.params.status;
+    const status = req.body.status;
     const recruiterId = req.user._id;
     try{
         if(!applicationId || !status){

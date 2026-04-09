@@ -12,6 +12,6 @@ jobRouter.delete("/:id/applications", authMiddleware, authorizeRole("applicant")
 
 jobRouter.get("/myjobs", authMiddleware, authorizeRole("recruiter"), jobControllers.getMyJobs);
 jobRouter.get("/:id/applicants", authMiddleware, authorizeRole("recruiter"), jobControllers.getApplicantsForJob);
-jobRouter.patch("/:id/:status/close", authMiddleware, authorizeRole("recruiter"), jobControllers.closeJob);
+jobRouter.patch("/:id/applicants", authMiddleware, authorizeRole("recruiter"), jobControllers.closeJob);
 
 export default jobRouter;
