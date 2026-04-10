@@ -44,6 +44,9 @@ const applyToJob = async (jobId, candidateId) => {
         return application;
     }
     catch(error){
+        if(error.code === 11000){
+            throw new error("You have already applied for this job!");
+        }
         throw error;
     }
 }
