@@ -5,6 +5,7 @@ import connectDB from './config/database.js';
 import authRouter from './routes/authRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import jobRouter from './routes/jobRoutes.js';
+import cors from 'cors';
 dotenv.config();
 
 const app = express();
